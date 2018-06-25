@@ -1,6 +1,6 @@
 {
   "name": "@scvo/router-task-mysql",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "SCVO=>Router task for MySQL",
   "main": "./build/index",
   "typings": "./build/index",

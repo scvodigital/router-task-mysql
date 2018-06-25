@@ -86,7 +86,8 @@ var MySQLRouterTask = /** @class */ (function (_super) {
                         _b = queryTemplateName;
                         return [4 /*yield*/, this.executeQuery(routeMatch, connection, queryTemplate)];
                     case 3:
-                        _a[_b] = _c.sent();
+                        _a[_b] =
+                            _c.sent();
                         return [3 /*break*/, 5];
                     case 4:
                         err_1 = _c.sent();

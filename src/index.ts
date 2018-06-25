@@ -1,6 +1,6 @@
 /* tslint:disable:no-any */
 const hbs = require('clayhandlebars')();
-import * as mysql from 'mysql';
+import mysql = require('mysql');
 import {RouterTask, RouteMatch, Helpers, RouteTaskError, RouteTaskConfiguration} from '@scvo/router';
 
 export class MySQLRouterTask extends RouterTask {

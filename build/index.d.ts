@@ -1,4 +1,4 @@
-import * as mysql from 'mysql';
+import mysql = require('mysql');
 import { RouterTask, RouteMatch, RouteTaskConfiguration } from '@scvo/router';
 export declare class MySQLRouterTask extends RouterTask {
     private connectionConfigs;
