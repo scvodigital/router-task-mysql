@@ -1,6 +1,4 @@
 /* tslint:disable:no-any */
-import {Client, ConfigOptions, MSearchParams, MSearchResponse, SearchResponse} from 'elasticsearch';
-
 const hbs = require('clayhandlebars')();
 
 import {RouterTask, RouteMatch, Helpers, RouteTaskError, RouteTaskConfiguration} from '@scvo/router';
@@ -26,7 +24,6 @@ export class MySQLRouterTask extends RouterTask {
 
 export interface MySQLTaskConfig {
   connectionStringTemplate: string;
-  elasticsearchConfig: ConfigOptions;
   queryTemplates: { [name: string]: string } | string;
 }
 
