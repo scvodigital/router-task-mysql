@@ -47,11 +47,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 /* tslint:disable:no-any */
 var hbs = require('clayhandlebars')();
+var mysql = require("mysql");
 var router_1 = require("@scvo/router");
 var MySQLRouterTask = /** @class */ (function (_super) {
     __extends(MySQLRouterTask, _super);
-    function MySQLRouterTask(handlebarsHelpers) {
+    function MySQLRouterTask(connectionConfigs, handlebarsHelpers) {
         var _this = _super.call(this) || this;
+        _this.connectionConfigs = connectionConfigs;
         _this.name = 'mysql';
         router_1.Helpers.register(hbs);
         Object.keys(handlebarsHelpers).forEach(function (name) {
@@ -61,10 +63,56 @@ var MySQLRouterTask = /** @class */ (function (_super) {
     }
     MySQLRouterTask.prototype.execute = function (routeMatch, task) {
         return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                data = {};
-                return [2 /*return*/, data];
+            var data, config, connectionConfig, connection, queryTemplateNames, q, queryTemplateName, queryTemplate, _a, _b, err_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        data = {};
+                        config = task.config;
+                        connectionConfig = this.connectionConfigs[config.connectionName];
+                        connection = mysql.createConnection(connectionConfig);
+                        connection.connect();
+                        queryTemplateNames = Object.keys(config.queryTemplates);
+                        q = 0;
+                        _c.label = 1;
+                    case 1:
+                        if (!(q < queryTemplateNames.length)) return [3 /*break*/, 6];
+                        queryTemplateName = queryTemplateNames[q];
+                        queryTemplate = config.queryTemplates[queryTemplateName];
+                        _c.label = 2;
+                    case 2:
+                        _c.trys.push([2, 4, , 5]);
+                        _a = data;
+                        _b = queryTemplateName;
+                        return [4 /*yield*/, this.executeQuery(routeMatch, connection, queryTemplate)];
+                    case 3:
+                        _a[_b] = _c.sent();
+                        return [3 /*break*/, 5];
+                    case 4:
+                        err_1 = _c.sent();
+                        throw err_1;
+                    case 5:
+                        ++q;
+                        return [3 /*break*/, 1];
+                    case 6:
+                        connection.end();
+                        return [2 /*return*/, data];
+                }
+            });
+        });
+    };
+    MySQLRouterTask.prototype.executeQuery = function (routeMatch, connection, queryTemplate) {
+        return new Promise(function (resolve, reject) {
+            var template = hbs.compile(queryTemplate);
+            var query = template(routeMatch);
+            console.log('About to execute query:', query);
+            connection.query(query, function (error, results, fields) {
+                if (error) {
+                    return reject(error);
+                }
+                else {
+                    return resolve(results);
+                }
             });
         });
     };
